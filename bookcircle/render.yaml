@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bookcircle
+    runtime: python
+    plan: free            # для постоянной БД: plan: starter + раскомментировать disk
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    healthCheckPath: /login
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: BOOKCIRCLE_SECRET
+        generateValue: true
+      - key: BOOKCIRCLE_DB
+        value: /var/data/bookcircle.db   # на free-плане /var/data создаётся на эфемерном диске
+    # disk:
+    #   name: data
+    #   mountPath: /var/data
+    #   sizeGB: 1
